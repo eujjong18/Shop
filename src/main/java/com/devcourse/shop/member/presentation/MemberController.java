@@ -1,11 +1,12 @@
-package com.devcourse.shop.controller;
+package com.devcourse.shop.member.presentation;
 
 import com.devcourse.shop.common.ResponseEntity;
-import com.devcourse.shop.member.MemberRequest;
-import com.devcourse.shop.member.MemberResponse;
-import com.devcourse.shop.service.MemberService;
+import com.devcourse.shop.member.application.dto.MemberInfo;
+import com.devcourse.shop.member.presentation.dto.MemberRequest;
+import com.devcourse.shop.member.application.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,8 +22,8 @@ public class MemberController {
             description = "public member 테이블에 저장된 모든 회원을 조회한다."
     )
     @GetMapping
-    public ResponseEntity<List<MemberResponse>> findAll(){
-        return memberService.findAll();
+    public ResponseEntity<List<MemberInfo>> findAll(Pageable pageable){
+        return memberService.findAll(pageable);
     }
 
     @Operation(
@@ -30,8 +31,8 @@ public class MemberController {
             description = "요청으로 받은 회원 정보를 public member 테이블에 저장한다."
     )
     @PostMapping
-    public ResponseEntity<MemberResponse> create(@RequestBody MemberRequest request){
-        return memberService.create(request);
+    public ResponseEntity<MemberInfo> create(@RequestBody MemberRequest request){
+        return memberService.create(request.toCommand());
     }
 
     @Operation(
@@ -39,8 +40,8 @@ public class MemberController {
             description = "요청으로 받은 회원 정보를 public member 테이블에 수정한다."
     )
     @PutMapping("{id}")
-    public ResponseEntity<MemberResponse> update(@RequestBody MemberRequest request, @PathVariable String id){
-        return memberService.update(request, id);
+    public ResponseEntity<MemberInfo> update(@RequestBody MemberRequest request, @PathVariable String id){
+        return memberService.update(request.toCommand(), id);
     }
 
     @Operation(

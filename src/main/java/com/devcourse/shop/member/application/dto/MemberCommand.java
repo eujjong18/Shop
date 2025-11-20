@@ -1,6 +1,6 @@
-package com.devcourse.shop.member;
+package com.devcourse.shop.member.application.dto;
 
-public record MemberRequest(
+public record MemberCommand (
         String email,
         String name,
         String password,
