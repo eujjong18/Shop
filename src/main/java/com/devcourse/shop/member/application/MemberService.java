@@ -22,11 +22,11 @@ public class MemberService {
 
     public ResponseEntity<List<MemberInfo>> findAll(Pageable pageable){
         Page<Member> page = memberRepository.findAll(pageable);
-        List<MemberInfo> responseList = page.stream()
+        List<MemberInfo> members = page.stream()
                 .map(MemberInfo::from)
                 .toList();
 
-        return new ResponseEntity<>(HttpStatus.OK.value(), responseList, responseList.size()); //memberRepository.count()
+        return new ResponseEntity<>(HttpStatus.OK.value(), members, page.getTotalElements());
     }
 
     public ResponseEntity<MemberInfo> create(MemberCommand command){
